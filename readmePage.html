@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+  <body style="padding:30px">
+    <textarea id="text-input" oninput="this.editor.update()"
+              rows="6" cols="60">Type **Markdown** here.</textarea>
+    <div id="preview"> </div>
+    <script src="./js/markdown.js"></script>
+    <script>
+      function Editor(input, preview) {
+        this.update = function () {
+          preview.innerHTML = markdown.toHTML(input.value);
+        };
+        input.editor = this;
+        this.update();
+      }
+      
+
+      function readFile(filename){
+
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var contents = event.target.result;
+            console.log("File contents: " + contents);
+        };
+        
+        reader.onerror = function(event) {
+            console.error("File could not be read! Code " + event.target.error.code);
+        };
+        
+        reader.onload.readAsText(filename,["utf-8"]);
+        return reader.result;
+        }
+        
+      var $ = function (id) { return document.getElementById(id); };
+      new Editor(readFile("README.MD"), $("preview"));
+    </script>
+  </body>
+</html>
