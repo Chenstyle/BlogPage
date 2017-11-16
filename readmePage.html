@@ -16,22 +16,12 @@
         input.editor = this;
         this.update();
       }
-      
 
       function readFile(filename){
 
-        var reader = new FileReader();
-        reader.onload = function(event) {
-            var contents = event.target.result;
-            console.log("File contents: " + contents);
-        };
-        
-        reader.onerror = function(event) {
-            console.error("File could not be read! Code " + event.target.error.code);
-        };
-        
-        reader.onload.readAsText(filename,["utf-8"]);
-        return reader.result;
+        return fetch(filename).then(function(response){
+            return response.text;
+        });
         }
         
       var $ = function (id) { return document.getElementById(id); };
